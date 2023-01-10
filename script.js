@@ -312,6 +312,7 @@ console.log(convertTitleCase('this is a nice title'));
 console.log(convertTitleCase('and here is another title with a EXAMPLE'));
 
 console.log('---------END PRACTISE----------');
+
 ////////Coding Challenge #1///////////////
 const dogsJulia = [3, 5, 2, 12, 7];
 const dogsKate = [4, 1, 15, 8, 3];
@@ -346,6 +347,8 @@ const calcAverageHumanAge = function (dogs) {
   console.log(reduceDogs);
   console.log(averageDogsAge);
 };
+
+////////Coding Challenge #3//////////////
 calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]);
 
 const calcAverageHumanAgeChain = ages =>
@@ -361,3 +364,62 @@ const arr = [[1, 2, 3], [4, 5, 6], 7, 8];
 console.log(arr.flat());
 const arrDeep = [[[1, 2], 3], [4, [5, 6]], 7, 8];
 console.log(arrDeep.flat(2));
+
+////////Coding Challenge #4//////////////
+
+//TASK 1
+const dogs = [
+  { weight: 22, curFood: 250, owners: ['Alice', 'Bob'] },
+  { weight: 8, curFood: 200, owners: ['Matilda'] },
+  { weight: 13, curFood: 275, owners: ['Sarah', 'John'] },
+  { weight: 32, curFood: 340, owners: ['Michael'] },
+];
+
+dogs.forEach(
+  dog => (dog.recommendedFood = Math.trunc(dog.weight ** 0.75 * 28))
+);
+//TASK 2
+const sarahDog = dogs.find(dog => dog.owners.includes('Sarah'));
+console.log(sarahDog);
+console.log(
+  `Sarah's dog is eating ${
+    sarahDog.curFood > sarahDog.recommendedFood ? 'Too much' : 'Not enaught'
+  }`
+);
+//TASK 3
+const ownersEatTooMuch = dogs
+  .filter(dog => dog.curFood > dog.recommendedFood)
+  .flatMap(dog => dog.owners);
+
+console.log(ownersEatTooMuch);
+
+const ownersEatTooLittle = dogs
+  .filter(dog => dog.curFood < dog.recommendedFood)
+  .flatMap(dog => dog.owners);
+console.log(ownersEatTooLittle);
+
+//TASK 4
+console.log(
+  `${ownersEatTooMuch.join(
+    ' and '
+  )} dogs eat too much! ${ownersEatTooLittle.join(' and ')} dogs eat
+  too little!"`
+);
+
+//TASK 5
+console.log(dogs.some(dog => dog.curFood === dog.recommendedFood));
+
+//TASK 6
+//current > (recommended * 0.90) && current < (recomended * 1,10)
+const checkEating = dog =>
+  dog.curFood > dog.recommendedFood * 0.9 &&
+  dog.curFood < dog.recommendedFood * 1.1;
+console.log(dogs.some(checkEating));
+
+//TASK 7
+console.log(dogs.filter(checkEating));
+
+//TASK 8
+const dogsSorted = dogs.slice();
+dogsSorted.sort((a, b) => a.recommendedFood - b.recommendedFood);
+console.log(dogsSorted);
