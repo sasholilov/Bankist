@@ -233,6 +233,85 @@ const withdrawals = movements.filter(function (mov) {
 console.log(deposits);
 console.log(withdrawals);
 
+//flat
+const overalBalance = accounts
+  .map(acc => acc.movements)
+  .flat()
+  .reduce((acc, mov) => acc + mov, 0);
+console.log(overalBalance);
+
+//flatMap
+const overalBalance2 = accounts
+  .flatMap(acc => acc.movements)
+  .reduce((acc, mov) => acc + mov, 0);
+console.log(overalBalance2);
+
+//AScending
+movements.sort((a, b) => a - b);
+console.log(movements);
+
+//Descending
+movements.sort((a, b) => b - a);
+console.log(movements);
+
+const y = Array.from({ length: 7 }, () => 1);
+console.log(y);
+
+const z = Array.from({ length: 7 }, (_, i) => 1 + i);
+console.log(z);
+
+labelBalance.addEventListener('click', function () {
+  const movementsUI = Array.from(
+    document.querySelectorAll('.movements__value'),
+    el => Number(el.textContent.replace('€', ''))
+  );
+  console.log(movementsUI);
+});
+
+console.log('----------PRACTISE------------');
+
+const bankDepositSum = accounts
+  .flatMap(mov => mov.movements)
+  .filter(mov => mov > 0)
+  .reduce((acc, mov) => acc + mov, 0);
+console.log(bankDepositSum);
+
+const numDeposits1000 = accounts
+  .flatMap(mov => mov.movements)
+  .filter(mov => mov >= 1000)
+  .reduce((count, cur) => (cur >= 1000 ? ++count : count), 0);
+console.log(numDeposits1000);
+
+const { deposits2, withdrawals2 } = accounts
+  .flatMap(mov => mov.movements)
+  .reduce(
+    (sums, cur) => {
+      //cur > 0 ? (sums.deposits2 += cur) : (sums.withdrawals2 += cur);
+      sums[cur > 0 ? 'deposits2' : 'withdrawals2'] += cur;
+      return sums;
+    },
+
+    { deposits2: 0, withdrawals2: 0 }
+  );
+
+console.log(deposits2, withdrawals2);
+
+const convertTitleCase = function (title) {
+  const capitalize = str => str[0].toUpperCase() + str.slice(1);
+  const exceptions = ['a', 'or', 'in', 'with', 'on', 'but', 'an', 'is'];
+
+  const titleCase = title
+    .toLowerCase()
+    .split(' ')
+    .map(word => (exceptions.includes(word) ? word : capitalize(word)))
+    .join(' ');
+  return capitalize(titleCase);
+};
+
+console.log(convertTitleCase('this is a nice title'));
+console.log(convertTitleCase('and here is another title with a EXAMPLE'));
+
+console.log('---------END PRACTISE----------');
 ////////Coding Challenge #1///////////////
 const dogsJulia = [3, 5, 2, 12, 7];
 const dogsKate = [4, 1, 15, 8, 3];
@@ -282,38 +361,3 @@ const arr = [[1, 2, 3], [4, 5, 6], 7, 8];
 console.log(arr.flat());
 const arrDeep = [[[1, 2], 3], [4, [5, 6]], 7, 8];
 console.log(arrDeep.flat(2));
-
-//flat
-const overalBalance = accounts
-  .map(acc => acc.movements)
-  .flat()
-  .reduce((acc, mov) => acc + mov, 0);
-console.log(overalBalance);
-
-//flatMap
-const overalBalance2 = accounts
-  .flatMap(acc => acc.movements)
-  .reduce((acc, mov) => acc + mov, 0);
-console.log(overalBalance2);
-
-//AScending
-movements.sort((a, b) => a - b);
-console.log(movements);
-
-//Descending
-movements.sort((a, b) => b - a);
-console.log(movements);
-
-const y = Array.from({ length: 7 }, () => 1);
-console.log(y);
-
-const z = Array.from({ length: 7 }, (_, i) => 1 + i);
-console.log(z);
-
-labelBalance.addEventListener('click', function () {
-  const movementsUI = Array.from(
-    document.querySelectorAll('.movements__value'),
-    el => Number(el.textContent.replace('€', ''))
-  );
-  console.log(movementsUI);
-});
